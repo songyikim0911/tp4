@@ -7,11 +7,10 @@ import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 import org.zerock.tp4.board.config.BoardRootConfig;
 import org.zerock.tp4.board.config.BoardServletConfig;
+import org.zerock.tp4.security.config.SecurityConfig;
+import org.zerock.tp4.security.config.SecurityServletConfig;
 
-import javax.servlet.Filter;
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRegistration;
+import javax.servlet.*;
 
 @Log4j2
     public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitializer {
@@ -23,14 +22,14 @@ import javax.servlet.ServletRegistration;
         protected Class<?>[] getRootConfigClasses() {
             log.info("1------------");
             log.info("1------------");
-            return new Class[]{RootConfig.class};
+            return new Class[]{RootConfig.class, SecurityConfig.class};
         }
 
         @Override
         protected Class<?>[] getServletConfigClasses() {
             log.info("2------------");
             log.info("2------------");
-            return new Class[]{ServletConfig.class};
+            return new Class[]{ServletConfig.class, SecurityServletConfig.class};
         }
 
         @Override
@@ -51,6 +50,13 @@ import javax.servlet.ServletRegistration;
 
     @Override
     protected void customizeRegistration(ServletRegistration.Dynamic registration) {
-        registration.setInitParameter("thorwExceptionIfNoHandlerFound","true");
+        registration.setInitParameter("throwExceptionIfNoHandlerFound","true");
+
+        MultipartConfigElement multipartConfigElement
+                = new MultipartConfigElement("C:\\upload\\temp", 1024*1024*10, 1024*1024*20, 1024*1024*1);
+        //10MB -최대 20MB
+
+        registration.setMultipartConfig((multipartConfigElement));
+
     }
 }

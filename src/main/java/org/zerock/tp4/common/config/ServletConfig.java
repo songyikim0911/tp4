@@ -15,7 +15,7 @@ import org.zerock.tp4.common.converter.StringToLocalDateTimeConverter;
 
 @EnableWebMvc
 @Import(BoardServletConfig.class)
-@ComponentScan(basePackages = "org.zerock.tp4.common.exception")
+@ComponentScan(basePackages = {"org.zerock.tp4.common.exception", "org.zerock.tp4.common.controller"})
 public class ServletConfig implements WebMvcConfigurer {
 
     @Override
